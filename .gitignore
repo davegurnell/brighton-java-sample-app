@@ -12,6 +12,8 @@ postcodes.csv
 /project/target/
 /.settings/
 /.worksheet/
+/.idea/
+/.idea_modules/
 
 # Absolute directories
 /project/boot/
