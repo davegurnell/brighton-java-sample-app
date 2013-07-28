@@ -10,15 +10,11 @@ class Menu {
   // Main menu
   // ---------
 
-  // Main menu loop:
-  // 
-  //  * print options;
-  //  * read user's input;
-  //  * call the relevant private method;
-  //  * loop until the user chooses "quit".
+  // Main menu loop.
   def menuLoop() = {
     var finished = false
 
+    // * print menu options;
     while (!finished) {
       println()
       println("1. Show my timeline")
@@ -27,8 +23,10 @@ class Menu {
       println("4. Search my timeline by author")
       println("Q. Quit")
 
+      // * read user's input;
       val choice = readLine("Choose an item: ").trim.toLowerCase
 
+      // * dispatch to the relevant menu option;
       choice match {
         case "1" => showTimeline(allTweets)
         case "2" => showTimeline(byText(readLine("Text: ")))
@@ -39,6 +37,8 @@ class Menu {
         case "q" => finished = true
         case _   => println("Whu?")
       }
+
+      // * loop until the user chooses "quit".
     }
   }
 

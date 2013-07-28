@@ -3,9 +3,15 @@ package tweetzor.core;
 import twitter4j.GeoLocation;
 
 public class Location {
+  
+  // Fields
+  // ------
 
   private double latitude;
   private double longitude;
+
+  // Constructors
+  // ------------
 
   public Location(double latitude, double longitude) {
     this.latitude = latitude;
@@ -17,20 +23,15 @@ public class Location {
     this.longitude = loc.getLongitude();
   }
 
+  // Getters
+  // -------
+  
   public double getLatitude() {
     return latitude;
   }
 
-  public void setLatitude(double latitude) {
-    this.latitude = latitude;
-  }
-
   public double getLongitude() {
     return longitude;
-  }
-
-  public void setLongitude(double longitude) {
-    this.longitude = longitude;
   }
 
 }

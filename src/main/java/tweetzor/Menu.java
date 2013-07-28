@@ -13,16 +13,12 @@ public class Menu {
   // Main menu
   // ---------
   
-  // Main menu loop:
-  // 
-  //  * print options;
-  //  * read user's input;
-  //  * call the relevant private method;
-  //  * loop until the user chooses "quit".  
+  // Main menu loop.
   public void menuLoop() {
     boolean finished = false;
     
     while (!finished) {
+      // * print menu options;
       println();
       println("1. Show my timeline");
       println("2. Search my timeline by text");
@@ -30,8 +26,10 @@ public class Menu {
       println("4. Search my timeline by text or author");
       println("Q. Quit");
 
+      // * read user's input;
       String choice = readLine("Choose an item: ").trim().toLowerCase();
 
+      // * dispatch to the relevant menu option;
       if(choice.equals("1")) {
         showTimeline();
       } else if(choice.equals("2")) {
@@ -46,6 +44,8 @@ public class Menu {
       } else {
         println("Whu?");
       }
+
+      // * loop until the user chooses "quit".  
     }
   }
   

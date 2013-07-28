@@ -3,12 +3,27 @@ package tweetzor.core;
 import twitter4j.Status;
 
 public class Tweet {
+  
+  // Fields
+  // ------
 
+  // * Unique tweet ID.
   private long id;
+  
+  // * Author's full name.
   private String author;
+  
+  // * Body text
   private String text;
+
+  // * Number of retweets.
   private long retweetCount;
+
+  // * GPS location of the tweet (may by `null`).
   private Location location;
+  
+  // Constructors
+  // ------------
 
   public Tweet(long id, String author, String text, long retweetCount, Location location) {
     this.id = id;
@@ -26,44 +41,28 @@ public class Tweet {
     this.location = status.getGeoLocation() == null ? null : new Location(status.getGeoLocation());
   }
 
+  // Getters
+  // -------
+
+  
   public long getId() {
     return id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
   }
 
   public String getAuthor() {
     return author;
   }
 
-  public void setAuthor(String author) {
-    this.author = author;
-  }
-
   public String getText() {
     return text;
-  }
-
-  public void setText(String text) {
-    this.text = text;
   }
 
   public long getRetweetCount() {
     return retweetCount;
   }
 
-  public void setRetweetCount(long retweetCount) {
-    this.retweetCount = retweetCount;
-  }
-
   public Location getLocation() {
     return location;
   }
-
-  public void setLocation(Location location) {
-    this.location = location;
-  }
-  
+ 
 }

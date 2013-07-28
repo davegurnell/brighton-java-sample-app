@@ -2,13 +2,15 @@ package tweetzor2.core
 
 import twitter4j.Status
 
-// The `case class` keywords produce a class with a bunch of predefined functionality:
+// The `case class` keywords generate a class with a bunch of predefined convenience functionality:
 // 
-// * a default constructor;
-// * a set of accessors (and mutators where applicable);
-// * a `toString` method;
-// * a working implementation `equals` and `hashCode`;
-// * a companion object with `apply` and `unapply` methods.
+// * primary constructor;
+// * accessors for all fields;
+// * mutators for all mutable fields;
+// * `copy` method for functional updates;
+// * working `equals` and `hashCode` methods;
+// * sensible `toString` method;
+// * companion object with `apply` and `unapply` methods.
 case class Tweet(
   val id: Long,
   val author: String,
@@ -17,12 +19,14 @@ case class Tweet(
   val location: Option[Location]
 )
 
-// The `object` keyword defines a singleton object. In this case,
-// because of its name, a *companion object* for the `Tweet` class.
+// The `object` keyword defines a singleton object.
+// In this case, we are defining a *companion object* and factory method for the `Tweet` class.
 //
-// Sala uses singleton and companion objects as a replacement for 
-// static fields and methods. Special scoping rules make companion 
-// objects are well suited for factory-like patterns.
+// Singleton objects provide a replacement for static fields and methods.
+// They have the advantage of being fully fledged objects that can extend a class.
+//
+// Companion classes and objects have special scoping privileges 
+// that make them well suited for factory-like patterns.
 object Tweet {
   def apply(status: Status): Tweet = {
     Tweet(
