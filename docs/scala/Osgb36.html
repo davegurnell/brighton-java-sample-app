@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Osgb36.scala</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="Coord.html">
+                Coord.scala
+              </a>
+            
+              
+              <a class="source" href="CoordConversions.html">
+                CoordConversions.scala
+              </a>
+            
+              
+              <a class="source" href="Ngr.html">
+                Ngr.scala
+              </a>
+            
+              
+              <a class="source" href="Osgb36.html">
+                Osgb36.scala
+              </a>
+            
+              
+              <a class="source" href="Wgs84.html">
+                Wgs84.scala
+              </a>
+            
+              
+              <a class="source" href="Main.html">
+                Main.scala
+              </a>
+            
+              
+              <a class="source" href="Menu.html">
+                Menu.scala
+              </a>
+            
+              
+              <a class="source" href="Location.html">
+                Location.scala
+              </a>
+            
+              
+              <a class="source" href="PostcodeDatabase.html">
+                PostcodeDatabase.scala
+              </a>
+            
+              
+              <a class="source" href="Tweet.html">
+                Tweet.scala
+              </a>
+            
+              
+              <a class="source" href="TwitterClient.html">
+                TwitterClient.scala
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>Osgb36.scala</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">package</span> com.untyped.location
+
+<span class="keyword">import</span> scala.math._
+
+<span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Osgb36</span><span class="params">(val lat: Double, val lng: Double, val height: Double)</span> <span class="keyword">extends</span> <span class="title">Coord</span> {</span>
+  <span class="keyword">import</span> CoordConversions._</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h2>Coordinate conversions</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Convert to a WGS84 coordinate.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">def</span> toWgs84: Wgs84 =
+    convert(<span class="keyword">this</span>, 
+            Ellipse.airy1830, 
+            Helmert.osgb36toWgs84,
+            Ellipse.wgs84,
+            Wgs84(_, _, _))</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Convert to an OSGB36 coordinate.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">def</span> toOsgb36: Osgb36 =
+    <span class="keyword">this</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Convert to a UK National Grid Reference.</p>
+<p>Code adapted from <a href="http://www.movable-type.co.uk/scripts/latlong-gridref.html">http://www.movable-type.co.uk/scripts/latlong-gridref.html</a></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">def</span> toNgr: Ngr = {
+    <span class="keyword">val</span> lat = toRadians(<span class="keyword">this</span>.lat)
+    <span class="keyword">val</span> lng = toRadians(<span class="keyword">this</span>.lng)
+  
+    <span class="keyword">val</span> a = <span class="number">6377563.396</span>                            <span class="comment">// Airy 1830 major &amp; minor semi-axes</span>
+    <span class="keyword">val</span> b = <span class="number">6356256.910</span>
+    <span class="keyword">val</span> F0 = <span class="number">0.9996012717</span>                          <span class="comment">// NatGrid scale factor on central meridian</span>
+    <span class="keyword">val</span> lat0 = toRadians(<span class="number">49</span>)                       <span class="comment">// NatGrid true origin</span>
+    <span class="keyword">val</span> lng0 = toRadians(-<span class="number">2</span>)
+    <span class="keyword">val</span> N0 = -<span class="number">100000</span>                               <span class="comment">// northing &amp; easting of true origin, metres</span>
+    <span class="keyword">val</span> E0 =  <span class="number">400000</span>
+    <span class="keyword">val</span> e2 = <span class="number">1</span> - (b*b)/(a*a)                       <span class="comment">// eccentricity squared</span>
+    <span class="keyword">val</span> n = (a-b)/(a+b)
+    <span class="keyword">val</span> n2 = n*n
+    <span class="keyword">val</span> n3 = n*n*n
+
+    <span class="keyword">val</span> cosLat = cos(lat)
+    <span class="keyword">val</span> sinLat = sin(lat) 
+    <span class="keyword">val</span> nu = a*F0/sqrt(<span class="number">1</span>-e2*sinLat*sinLat)               <span class="comment">// transverse radius of curvature</span>
+    <span class="keyword">val</span> rho = a*F0*(<span class="number">1</span>-e2)/pow(<span class="number">1</span>-e2*sinLat*sinLat, <span class="number">1.5</span>)   <span class="comment">// meridional radius of curvature</span>
+    <span class="keyword">val</span> eta2 = nu/rho-<span class="number">1</span> 
+
+    <span class="keyword">val</span> Ma = (<span class="number">1</span> + n + (<span class="number">5</span>/<span class="number">4</span>)*n2 + (<span class="number">5</span>/<span class="number">4</span>)*n3) * (lat-lat0) 
+    <span class="keyword">val</span> Mb = (<span class="number">3</span>*n + <span class="number">3</span>*n*n + (<span class="number">21</span>/<span class="number">8</span>)*n3) * sin(lat-lat0) * cos(lat+lat0) 
+    <span class="keyword">val</span> Mc = ((<span class="number">15</span>/<span class="number">8</span>)*n2 + (<span class="number">15</span>/<span class="number">8</span>)*n3) * sin(<span class="number">2</span>*(lat-lat0)) * cos(<span class="number">2</span>*(lat+lat0)) 
+    <span class="keyword">val</span> Md = (<span class="number">35</span>/<span class="number">24</span>)*n3 * sin(<span class="number">3</span>*(lat-lat0)) * cos(<span class="number">3</span>*(lat+lat0)) 
+    <span class="keyword">val</span> M = b * F0 * (Ma - Mb + Mc - Md)                      <span class="comment">// meridional arc</span>
+
+    <span class="keyword">val</span> cos3lat = cosLat*cosLat*cosLat 
+    <span class="keyword">val</span> cos5lat = cos3lat*cosLat*cosLat 
+    <span class="keyword">val</span> tan2lat = tan(lat)*tan(lat) 
+    <span class="keyword">val</span> tan4lat = tan2lat*tan2lat 
+
+    <span class="keyword">val</span> I = M + N0 
+    <span class="keyword">val</span> II = (nu/<span class="number">2</span>)*sinLat*cosLat 
+    <span class="keyword">val</span> III = (nu/<span class="number">24</span>)*sinLat*cos3lat*(<span class="number">5</span>-tan2lat+<span class="number">9</span>*eta2) 
+    <span class="keyword">val</span> IIIA = (nu/<span class="number">720</span>)*sinLat*cos5lat*(<span class="number">61</span>-<span class="number">58</span>*tan2lat+tan4lat) 
+    <span class="keyword">val</span> IV = nu*cosLat 
+    <span class="keyword">val</span> V = (nu/<span class="number">6</span>)*cos3lat*(nu/rho-tan2lat) 
+    <span class="keyword">val</span> VI = (nu/<span class="number">120</span>) * cos5lat * (<span class="number">5</span> - <span class="number">18</span>*tan2lat + tan4lat + <span class="number">14</span>*eta2 - <span class="number">58</span>*tan2lat*eta2) 
+
+    <span class="keyword">val</span> dLng = lng-lng0 
+    <span class="keyword">val</span> dLng2 = dLng*dLng
+    <span class="keyword">val</span> dLng3 = dLng2*dLng
+    <span class="keyword">val</span> dLng4 = dLng3*dLng
+    <span class="keyword">val</span> dLng5 = dLng4*dLng
+    <span class="keyword">val</span> dLng6 = dLng5*dLng 
+
+    <span class="keyword">val</span> N = I + II*dLng2 + III*dLng4 + IIIA*dLng6 
+    <span class="keyword">val</span> E = E0 + IV*dLng + V*dLng3 + VI*dLng5 
+
+    Ngr(E.toInt, N.toInt)
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Format latitude and longitude to 6DP.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">override</span> <span class="keyword">def</span> toString: String =
+    <span class="string">"Osgb36(%.6f,%.6f)"</span>.format(lat, lng)
+}</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

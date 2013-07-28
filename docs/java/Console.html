@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Console.java</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="Main.html">
+                Main.java
+              </a>
+            
+              
+              <a class="source" href="Menu.html">
+                Menu.java
+              </a>
+            
+              
+              <a class="source" href="Console.html">
+                Console.java
+              </a>
+            
+              
+              <a class="source" href="Location.html">
+                Location.java
+              </a>
+            
+              
+              <a class="source" href="PostcodeDatabase.html">
+                PostcodeDatabase.java
+              </a>
+            
+              
+              <a class="source" href="Tweet.html">
+                Tweet.java
+              </a>
+            
+              
+              <a class="source" href="TwitterClient.html">
+                TwitterClient.java
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>Console.java</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">package</span> tweetzor.core;
+
+<span class="keyword">import</span> java.io.BufferedReader;
+<span class="keyword">import</span> java.io.IOException;
+<span class="keyword">import</span> java.io.InputStreamReader;
+<span class="keyword">import</span> java.io.PrintStream;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Rough-and-ready replacement for <code>java.io.Console</code>
+that provides easy access to a <code>readLine</code> from stdin.</p>
+<p>This class exists because <code>java.io.Console</code> doesn&#39;t 
+work well with the Eclipse REPL.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Console</span> {</span>
+
+  <span class="keyword">private</span> <span class="keyword">static</span> PrintStream out = System.out;
+  <span class="keyword">private</span> <span class="keyword">static</span> BufferedReader in = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(System.in));</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Print <code>msg</code> to stdout.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> print(String msg) {
+    out.print(msg);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Move stdout to a new line.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> println() {
+    out.println();
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Print <code>msg</code> to stdout and move to a new line.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> println(String msg) {
+    out.println(msg);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Print <code>prompt</code> to stdout and read a line from stdin.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">public</span> <span class="keyword">static</span> String readLine(String prompt) {
+    <span class="keyword">try</span> {
+      out.print(prompt);
+      <span class="keyword">return</span> in.readLine();
+    } <span class="keyword">catch</span> (IOException e) {
+      <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);
+    }
+  }
+  
+}</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

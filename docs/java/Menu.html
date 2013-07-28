@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Menu.java</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="Main.html">
+                Main.java
+              </a>
+            
+              
+              <a class="source" href="Menu.html">
+                Menu.java
+              </a>
+            
+              
+              <a class="source" href="Console.html">
+                Console.java
+              </a>
+            
+              
+              <a class="source" href="Location.html">
+                Location.java
+              </a>
+            
+              
+              <a class="source" href="PostcodeDatabase.html">
+                PostcodeDatabase.java
+              </a>
+            
+              
+              <a class="source" href="Tweet.html">
+                Tweet.java
+              </a>
+            
+              
+              <a class="source" href="TwitterClient.html">
+                TwitterClient.java
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>Menu.java</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">package</span> tweetzor;
+
+<span class="keyword">import</span> <span class="keyword">static</span> tweetzor.core.Console.print;
+<span class="keyword">import</span> <span class="keyword">static</span> tweetzor.core.Console.println;
+<span class="keyword">import</span> <span class="keyword">static</span> tweetzor.core.Console.readLine;
+<span class="keyword">import</span> tweetzor.core.Location;
+<span class="keyword">import</span> tweetzor.core.PostcodeDatabase;
+<span class="keyword">import</span> tweetzor.core.Tweet;
+<span class="keyword">import</span> tweetzor.core.TwitterClient;
+
+<span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Menu</span> {</span>
+  
+  <span class="keyword">private</span> TwitterClient api = <span class="keyword">new</span> TwitterClient();
+  <span class="keyword">private</span> PostcodeDatabase postcodes = <span class="keyword">new</span> PostcodeDatabase(<span class="string">"/postcodes.csv"</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h2>Main menu</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Main menu loop.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">public</span> <span class="keyword">void</span> menuLoop() {
+    <span class="keyword">boolean</span> finished = <span class="keyword">false</span>;
+    
+    do {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <ul>
+<li>print menu options;</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      println();
+      println(<span class="string">"1. Show my timeline"</span>);
+      println(<span class="string">"2. Search my timeline by text"</span>);
+      println(<span class="string">"3. Search my timeline by author"</span>);
+      println(<span class="string">"4. Search my timeline by text or author"</span>);
+      println(<span class="string">"Q. Quit"</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <ul>
+<li>read user&#39;s input;</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      String choice = readLine(<span class="string">"Choose an item: "</span>).trim().toLowerCase();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <ul>
+<li>dispatch to the relevant menu option;</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="keyword">if</span>(choice.equals(<span class="string">"1"</span>)) {
+        showTimeline(allTweets);
+      } <span class="keyword">else</span> <span class="keyword">if</span>(choice.equals(<span class="string">"2"</span>)) {
+        showTimeline(byText(readLine(<span class="string">"Text: "</span>)));
+      } <span class="keyword">else</span> <span class="keyword">if</span>(choice.equals(<span class="string">"3"</span>)) {
+        showTimeline(byAuthor(readLine(<span class="string">"Author: "</span>)));
+      } <span class="keyword">else</span> <span class="keyword">if</span>(choice.equals(<span class="string">"4"</span>)) {
+        String pattern = readLine(<span class="string">"Text or author: "</span>);
+        showTimeline(or(byText(pattern), byAuthor(pattern)));
+      } <span class="keyword">else</span> <span class="keyword">if</span>(choice.equals(<span class="string">"q"</span>)) {
+        finished = <span class="keyword">true</span>;
+      } <span class="keyword">else</span> {
+        println(<span class="string">"Whu?"</span>);
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <ul>
+<li>loop until the user chooses &quot;quit&quot;.  </li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    } <span class="keyword">while</span>(!finished);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <h2>Menu options</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>A <code>SearchFilter</code> has a <code>matches</code> method that tells us whether to display a tweet.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="class"><span class="keyword">interface</span> <span class="title">SearchFilter</span> {</span>
+    <span class="keyword">public</span> <span class="keyword">boolean</span> matches(Tweet tweet);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Display the user&#39;s timeline, filtered by an arbitrary search filter.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">private</span> <span class="keyword">void</span> showTimeline(SearchFilter filter) {
+    <span class="keyword">for</span>(Tweet tweet : api.getTimeline()) {
+      <span class="keyword">if</span>(filter.matches(tweet)) {
+        printTweet(tweet);
+      }
+    }
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <h2>Search filters</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Search filter that matches all tweets.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">private</span> SearchFilter allTweets = <span class="keyword">new</span> SearchFilter() {
+    <span class="keyword">public</span> <span class="keyword">boolean</span> matches(Tweet tweet) {
+      <span class="keyword">return</span> <span class="keyword">true</span>;
+    }
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Create a search filter that matches tweets containing a text pattern.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">private</span> SearchFilter byText(<span class="keyword">final</span> String pattern) {
+    <span class="keyword">return</span> <span class="keyword">new</span> SearchFilter() {
+      <span class="keyword">public</span> <span class="keyword">boolean</span> matches(Tweet tweet) {
+        <span class="keyword">return</span> tweet.getText().contains(pattern);
+      }
+    };
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Create a search filter that matches tweets by an author.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">private</span> SearchFilter byAuthor(<span class="keyword">final</span> String pattern) {
+    <span class="keyword">return</span> <span class="keyword">new</span> SearchFilter() {
+      <span class="keyword">public</span> <span class="keyword">boolean</span> matches(Tweet tweet) {
+        <span class="keyword">return</span> tweet.getAuthor().contains(pattern);
+      }
+    };
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Create a search filter that is the disjunction of the arguments.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">private</span> SearchFilter or(<span class="keyword">final</span> SearchFilter... filters) {
+    <span class="keyword">return</span> <span class="keyword">new</span> SearchFilter() {
+      <span class="keyword">public</span> <span class="keyword">boolean</span> matches(Tweet tweet) {
+        <span class="keyword">for</span>(SearchFilter filter : filters) {
+          <span class="keyword">if</span>(filter.matches(tweet)) {
+            <span class="keyword">return</span> <span class="keyword">true</span>;
+          }
+        }
+        <span class="keyword">return</span> <span class="keyword">false</span>;
+      }
+    };
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <h2>Helpers</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Print a <code>Tweet</code> to stdout. </p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">private</span> <span class="keyword">void</span> printTweet(Tweet tweet) {
+    printPadded(tweet.getAuthor(), <span class="number">20</span>);
+    
+    String postcode = <span class="keyword">null</span>;
+    <span class="keyword">try</span> {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>Could return null</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      Location location = tweet.getLocation();</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Could return null</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      postcode = postcodes.getNearestPostcode(location.getNgr());
+    } <span class="keyword">catch</span>(NullPointerException exn) {
+      postcode = <span class="string">"Unknown"</span>;
+    }
+    printPadded(postcode, <span class="number">20</span>);
+    println(tweet.getText().replaceAll(<span class="string">"[\r\n]+"</span>, <span class="string">" "</span>));
+  }
+  
+  <span class="keyword">private</span> <span class="keyword">void</span> printPadded(String msg, <span class="keyword">int</span> width) {
+    print(msg);
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = msg.length(); i &lt; width; i++) {
+      print(<span class="string">" "</span>);
+    }
+  }
+  
+}</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

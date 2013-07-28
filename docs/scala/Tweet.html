@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Tweet.scala</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="Coord.html">
+                Coord.scala
+              </a>
+            
+              
+              <a class="source" href="CoordConversions.html">
+                CoordConversions.scala
+              </a>
+            
+              
+              <a class="source" href="Ngr.html">
+                Ngr.scala
+              </a>
+            
+              
+              <a class="source" href="Osgb36.html">
+                Osgb36.scala
+              </a>
+            
+              
+              <a class="source" href="Wgs84.html">
+                Wgs84.scala
+              </a>
+            
+              
+              <a class="source" href="Main.html">
+                Main.scala
+              </a>
+            
+              
+              <a class="source" href="Menu.html">
+                Menu.scala
+              </a>
+            
+              
+              <a class="source" href="Location.html">
+                Location.scala
+              </a>
+            
+              
+              <a class="source" href="PostcodeDatabase.html">
+                PostcodeDatabase.scala
+              </a>
+            
+              
+              <a class="source" href="Tweet.html">
+                Tweet.scala
+              </a>
+            
+              
+              <a class="source" href="TwitterClient.html">
+                TwitterClient.scala
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>Tweet.scala</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">package</span> tweetzor2.core
+
+<span class="keyword">import</span> twitter4j.Status</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>The <code>case class</code> keywords generate a class with a bunch of predefined convenience functionality:</p>
+<ul>
+<li>primary constructor;</li>
+<li>accessors for all fields;</li>
+<li>mutators for all mutable fields;</li>
+<li><code>copy</code> method for functional updates;</li>
+<li>working <code>equals</code> and <code>hashCode</code> methods;</li>
+<li>sensible <code>toString</code> method;</li>
+<li>companion object with <code>apply</code> and <code>unapply</code> methods.</li>
+</ul>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">case</span> <span class="keyword">class</span> <span class="title">Tweet</span><span class="params">(
+  val id: Long,
+  val author: String,
+  val text: String,
+  val retweetCount: Long,
+  val location: Option[Location]
+)</span></span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>The <code>object</code> keyword defines a singleton object.
+In this case, we are defining a <em>companion object</em> and factory method for the <code>Tweet</code> class.</p>
+<p>Singleton objects provide a replacement for static fields and methods.
+They have the advantage of being fully fledged objects that can extend a class.</p>
+<p>Companion classes and objects have special scoping privileges 
+that make them well suited for factory-like patterns.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">object</span> <span class="title">Tweet</span> {</span>
+  <span class="keyword">def</span> apply(status: Status): Tweet = {
+    Tweet(
+      id = status.getId,
+      author = status.getUser.getName,
+      text = status.getText,
+      retweetCount = status.getRetweetCount,
+      location = Option(status.getGeoLocation).map(Location.apply _)
+    )
+  }
+}</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
