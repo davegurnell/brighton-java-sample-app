@@ -2,6 +2,9 @@ package tweetzor.core;
 
 import twitter4j.GeoLocation;
 
+import com.untyped.location.Ngr;
+import com.untyped.location.Wgs84;
+
 public class Location {
   
   // Fields
@@ -32,6 +35,10 @@ public class Location {
 
   public double getLongitude() {
     return longitude;
+  }
+  
+  public Ngr getNgr() {
+    return new Wgs84(latitude, longitude, 0.0).toNgr();
   }
 
 }

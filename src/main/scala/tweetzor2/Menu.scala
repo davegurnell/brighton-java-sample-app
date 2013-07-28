@@ -2,10 +2,12 @@ package tweetzor2
 
 import tweetzor2.core.Tweet
 import tweetzor2.core.TwitterClient
+import tweetzor2.core.PostcodeDatabase
 
 class Menu {
 
   val api = new TwitterClient
+  val postcodes = new PostcodeDatabase("/postcodes.csv")
 
   // Main menu
   // ---------
@@ -45,30 +47,34 @@ class Menu {
   // Menu options
   // ------------
 
+  // Type alias. A `SearchFilter` is a function from `Tweet` to `Boolean`.
+  // *We don't need this declaration* - it just makes the code clearer.
+  type SearchFilter = (Tweet) => Boolean
+
   // Display the user's timeline, filtered by an arbitrary search filter.
-  def showTimeline(filter: Tweet => Boolean) = {
+  def showTimeline(filter: SearchFilter) = {
     api.timeline.filter(filter).foreach(printTweet _)
   }
 
   // Search filters
   // --------------
-
-  // A search filter that matches all tweets.
-  val allTweets =
+  
+  // Search filter that matches all tweets.
+  val allTweets: SearchFilter =
     (tweet: Tweet) => true
 
   // Create a search filter that matches tweets containing a text pattern.
-  def byText(pattern: String) = {
+  def byText(pattern: String): SearchFilter = {
     (tweet: Tweet) => tweet.text.contains(pattern)
   }
 
   // Create a search filter that matches tweets by an author.
-  def byAuthor(author: String) = {
+  def byAuthor(author: String): SearchFilter = {
     (tweet: Tweet) => tweet.author.contains(author)
   }
 
   // Create a search filter that is the disjunction of the arguments.
-  def or(filters: (Tweet => Boolean)*) = {
+  def or(filters: (Tweet => Boolean)*): SearchFilter = {
     (tweet: Tweet) => filters.exists(filter => filter(tweet) == true)
   }
 
@@ -77,11 +83,15 @@ class Menu {
 
   // Print a `Tweet` to stdout. 
   private def printTweet(tweet: Tweet): Unit = {
-    print(tweet.author);
-    for (i <- tweet.author.length() to 20) {
-      print(" ")
-    }
+    printPadded(tweet.author, 20)
+    printPadded(tweet.location.map(_.ngr).flatMap(postcodes.nearestPostcode _).getOrElse("Unknown"), 20)
     println(tweet.text.replaceAll("[\r\n]+", " "))
+  }
+  
+  // Print `msg`, padded to `width` with spaces.
+  private def printPadded(msg: String, width: Int) {
+    print(msg)
+    for(i <- msg.length to width) print(" ")
   }
 
 }

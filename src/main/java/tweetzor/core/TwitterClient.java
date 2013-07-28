@@ -19,6 +19,7 @@ public class TwitterClient {
   // API calls
   // ---------
 
+  // Get our home timeline as a list of `Tweets`.
   public List<Tweet> getTimeline() {
     try {
       return toTweets(twitter.getHomeTimeline());
@@ -27,6 +28,16 @@ public class TwitterClient {
     }
   }
 
+  // Get the `user`'s timeline as a list of `Tweets`.
+  public List<Tweet> getUserTimeline(String user) {
+    try {
+      return toTweets(twitter.getUserTimeline(user));
+    } catch (TwitterException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  // Get a list of retweets of the specified `Tweet`.
   public List<Tweet> getRetweets(Tweet tweet) {
     try {
       if (tweet.getRetweetCount() > 0) {

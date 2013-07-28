@@ -13,12 +13,17 @@ class TwitterClient() {
   // API calls
   // ---------
 
-  // Get the user's timeline as a list of Tweets.
+  // Get our home timeline as a list of `Tweets`.
   def timeline: List[Tweet] = {
     toTweets(twitter.getHomeTimeline())
   }
 
-  // Get a tweet's retweets.
+  // Get the `user`'s timeline as a list of `Tweets`.
+  def userTimeline(user: String): List[Tweet] = {
+    toTweets(twitter.getUserTimeline(user))
+  }
+
+  // Get a list of retweets of the specified `Tweet`.
   def retweets(tweet: Tweet): List[Tweet] = {
     if (tweet.retweetCount == 0) {
       Nil

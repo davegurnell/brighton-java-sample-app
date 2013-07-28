@@ -3,12 +3,15 @@ package tweetzor;
 import static tweetzor.core.Console.print;
 import static tweetzor.core.Console.println;
 import static tweetzor.core.Console.readLine;
+import tweetzor.core.Location;
+import tweetzor.core.PostcodeDatabase;
 import tweetzor.core.Tweet;
 import tweetzor.core.TwitterClient;
 
 public class Menu {
   
   private TwitterClient api = new TwitterClient();
+  private PostcodeDatabase postcodes = new PostcodeDatabase("/postcodes.csv");
 
   // Main menu
   // ---------
@@ -52,6 +55,11 @@ public class Menu {
   // Menu options
   // ------------
 
+  // A `SearchFilter` has a `matches` method that tells us whether to display a tweet.
+  interface SearchFilter {
+    public boolean matches(Tweet tweet);
+  }
+  
   // Display the user's timeline, filtered by an arbitrary search filter.
   private void showTimeline(SearchFilter filter) {
     for(Tweet tweet : api.getTimeline()) {
@@ -64,11 +72,7 @@ public class Menu {
   // Search filters
   // --------------
   
-  interface SearchFilter {
-    public boolean matches(Tweet tweet);
-  }
-  
-  // A search filter that matches all tweets.
+  // Search filter that matches all tweets.
   private SearchFilter allTweets = new SearchFilter() {
     public boolean matches(Tweet tweet) {
       return true;
@@ -112,11 +116,26 @@ public class Menu {
 
   // Print a `Tweet` to stdout. 
   private void printTweet(Tweet tweet) {
-    print(tweet.getAuthor());
-    for(int i = tweet.getAuthor().length(); i < 20; i++) {
+    printPadded(tweet.getAuthor(), 20);
+    
+    String postcode = null;
+    try {
+      // Could return null
+      Location location = tweet.getLocation();
+      // Could return null
+      postcode = postcodes.getNearestPostcode(location.getNgr());
+    } catch(NullPointerException exn) {
+      postcode = "Unknown";
+    }
+    printPadded(postcode, 20);
+    println(tweet.getText().replaceAll("[\r\n]+", " "));
+  }
+  
+  private void printPadded(String msg, int width) {
+    print(msg);
+    for(int i = msg.length(); i < width; i++) {
       print(" ");
     }
-    println(tweet.getText().replaceAll("[\r\n]+", " "));
   }
   
 }

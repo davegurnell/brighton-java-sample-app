@@ -4,11 +4,14 @@
 .classpath
 .project
 twitter4j.properties
+postcodes.csv
 
 # Directories
-target/
-.settings/
-.worksheet/
+/bin/
+/target/
+/project/target/
+/.settings/
+/.worksheet/
 
 # Absolute directories
 /project/boot/
