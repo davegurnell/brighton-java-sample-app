@@ -1,0 +1,15 @@
+# Files
+.DS_Store
+.cache
+.classpath
+.project
+twitter4j.properties
+
+# Directories
+target/
+.settings/
+.worksheet/
+
+# Absolute directories
+/project/boot/
+/src/main/resources/twitter4j.properties
