@@ -17,7 +17,7 @@ public class Menu {
   public void menuLoop() {
     boolean finished = false;
     
-    while (!finished) {
+    do {
       // * print menu options;
       println();
       println("1. Show my timeline");
@@ -31,14 +31,14 @@ public class Menu {
 
       // * dispatch to the relevant menu option;
       if(choice.equals("1")) {
-        showTimeline();
+        showTimeline(allTweets);
       } else if(choice.equals("2")) {
-        searchTimelineByText(readLine("Text: "));
+        showTimeline(byText(readLine("Text: ")));
       } else if(choice.equals("3")) {
-        searchTimelineByAuthor(readLine("Author: "));
-      } else if(choice.equals("3")) {
+        showTimeline(byAuthor(readLine("Author: ")));
+      } else if(choice.equals("4")) {
         String pattern = readLine("Text or author: ");
-        searchTimelineByTextOrAuthor(pattern);
+        showTimeline(or(byText(pattern), byAuthor(pattern)));
       } else if(choice.equals("q")) {
         finished = true;
       } else {
@@ -46,46 +46,67 @@ public class Menu {
       }
 
       // * loop until the user chooses "quit".  
-    }
+    } while(!finished);
   }
   
   // Menu options
   // ------------
 
-  // Display the user's timeline.
-  private void showTimeline() {
+  // Display the user's timeline, filtered by an arbitrary search filter.
+  private void showTimeline(SearchFilter filter) {
     for(Tweet tweet : api.getTimeline()) {
-      printTweet(tweet);
-    }
-  }
-
-  // Display tweets that have matching text.
-  private void searchTimelineByText(String pattern) {
-    for(Tweet tweet : api.getTimeline()) {
-      if(tweet.getText().contains(pattern)) {
+      if(filter.matches(tweet)) {
         printTweet(tweet);
       }
     }
   }
-
-  // Display tweets that have matching authors.
-  private void searchTimelineByAuthor(String pattern) {
-    for(Tweet tweet : api.getTimeline()) {
-      if(tweet.getAuthor().contains(pattern)) {
-        printTweet(tweet);
-      }
+  
+  // Search filters
+  // --------------
+  
+  interface SearchFilter {
+    public boolean matches(Tweet tweet);
+  }
+  
+  // A search filter that matches all tweets.
+  private SearchFilter allTweets = new SearchFilter() {
+    public boolean matches(Tweet tweet) {
+      return true;
     }
+  };
+  
+  // Create a search filter that matches tweets containing a text pattern.
+  private SearchFilter byText(final String pattern) {
+    return new SearchFilter() {
+      public boolean matches(Tweet tweet) {
+        return tweet.getText().contains(pattern);
+      }
+    };
   }
 
-  // Display tweets that have matching text or authors.
-  private void searchTimelineByTextOrAuthor(String pattern) {
-    for(Tweet tweet : api.getTimeline()) {
-      if(tweet.getText().contains(pattern) || tweet.getAuthor().contains(pattern)) {
-        printTweet(tweet);
+  // Create a search filter that matches tweets by an author.
+  private SearchFilter byAuthor(final String pattern) {
+    return new SearchFilter() {
+      public boolean matches(Tweet tweet) {
+        return tweet.getAuthor().contains(pattern);
       }
-    }
+    };
   }
 
+  // Create a search filter that is the disjunction of the arguments.
+  private SearchFilter or(final SearchFilter... filters) {
+    return new SearchFilter() {
+      public boolean matches(Tweet tweet) {
+        for(SearchFilter filter : filters) {
+          if(filter.matches(tweet)) {
+            return true;
+          }
+        }
+        return false;
+      }
+    };
+  }
+  
   // Helpers
   // -------
 

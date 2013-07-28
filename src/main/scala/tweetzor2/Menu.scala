@@ -15,12 +15,12 @@ class Menu {
     var finished = false
 
     // * print menu options;
-    while (!finished) {
+    do {
       println()
       println("1. Show my timeline")
       println("2. Search my timeline by text")
       println("3. Search my timeline by author")
-      println("4. Search my timeline by author")
+      println("4. Search my timeline by text or author")
       println("Q. Quit")
 
       // * read user's input;
@@ -39,13 +39,13 @@ class Menu {
       }
 
       // * loop until the user chooses "quit".
-    }
+    } while(!finished);
   }
 
   // Menu options
   // ------------
 
-  // Display the user's timeline filtered by an arbitrary search filter.
+  // Display the user's timeline, filtered by an arbitrary search filter.
   def showTimeline(filter: Tweet => Boolean) = {
     api.timeline.filter(filter).foreach(printTweet _)
   }
