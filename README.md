@@ -1,5 +1,5 @@
-Intro to Scala at Brighton Java
-===============================
+Brighton Java: Intro to Scala Sample App
+========================================
 
 This code accompanies the talk *An Introduction to Scala* by Dave Gurnell and Richard Dallaway,
 given at [BrightonJava](http://www.brightonjava.com) on 7th August 2013. The talk abstract follows:
