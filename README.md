@@ -5,14 +5,13 @@ This code accompanies the talk *An Introduction to Scala* by Dave Gurnell and Ri
 given at [BrightonJava](http://www.brightonjava.com) on 7th August 2013. The talk abstract follows:
 
 > Dave Gurnell and Richard Dallaway present a brief introduction to [Scala](http://scala-lang.org) –
-> a powerful programming language for the JVM. In the talk, the speakers introduce
-> Scala from a Java programmer’s perspective, and show how its support for object-oriented
-> and functional programming styles can provide a smooth transition to greater productivity
-> and code reliability.
+> a powerful programming language for the JVM. In the talk, the speakers introduce Scala from a
+> Java programmer’s perspective, and show how its support for object-oriented and functional
+> programming styles can provide a smooth transition to greater productivity and code reliability.
 
-The talk walks the audience through the simultaneous development of a simple Tweet-listing app,
-*Tweetzor*, in both Java and Scala. The talk goes through various versions of the app as we add
-new features. Each version is preserved in a different branch of the Git repo.
+This is a sample tweet listing app that we implemented in Java and Scala to compare syntax and idioms
+in the two languages. We ultimately didn't use the app in the talk - see
+https://github.com/davegurnell/brighton-java-slides for our slides.
 
 Viewing the code
 ================
@@ -39,7 +38,7 @@ the code:
 
 There's a menu for switching files in the top right of the page.
 
-## Eclipse 3
+## Eclipse
 
 The project is built using [SBT](http://scala-sbt.org). To view the code in the Eclipse IDE:
 
@@ -79,7 +78,7 @@ The project is built using [SBT](http://scala-sbt.org). To view the code in the 
  3. Import the code as an Intellij project by selecting **File Menu / Open...** and
     selecting the root directory of the repo.
 
-Building the code
+Building the Code
 =================
 
 Build the code in the usual way using your trusty IDE, **or** run the following command
@@ -87,7 +86,7 @@ from the root directory of the repo:
 
     ./sbt compile
 
-Running the code
+Running the Code
 ================
 
 ## Prerequisites
@@ -134,7 +133,7 @@ You can get your own copy easily - the installation procedure is as follows:
    from the Ordnance Survey. Concatenate all of the CSV files and name the resulting
    file `src/main/resources/postcodes.csv`.
 
-## All done - let's go
+## All Done - Let's Go
 
 Run the code in the usual way using your trusty IDE, **or** run the following command
 from the root directory of the repo:
